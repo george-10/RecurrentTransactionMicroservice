@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+
+
+// Define the messages corresponding to the RecurrentTransaction table
+message RecurrentTransactions {
+  int64 id = 1;
+  int64 accountId = 2;
+  bool isDeposit = 3;
+  int64 amount = 4;
+  int64 interval = 5;
+}
+
+// Message to create a new recurrent transaction
+message CreateRecurrentTransactionRequest {
+  int64 accountId = 1;
+  bool isDeposit = 2;
+  int64 amount = 3;
+  int64 interval = 4;
+}
+
+// Response for create operation
+message CreateRecurrentTransactionResponse {
+  RecurrentTransactions transaction = 1;
+}
+
+// Message to get a specific recurrent transaction by Id
+message GetRecurrentTransactionRequest {
+  int64 id = 1;
+}
+
+// Response for get operation
+message GetRecurrentTransactionResponse {
+  RecurrentTransactions transaction = 1;
+}
+
+// Message to list all recurrent transactions
+message ListRecurrentTransactionsRequest {}
+
+// Response for list operation
+message ListRecurrentTransactionsResponse {
+  repeated RecurrentTransactions transactions = 1;
+}
+
+// Define the RecurrentTransaction services
+service RecurrentTransactionService {
+  // Create a new recurrent transaction
+  rpc CreateRecurrentTransaction(CreateRecurrentTransactionRequest) returns (CreateRecurrentTransactionResponse);
+
+  // Get a recurrent transaction by Id
+  rpc GetRecurrentTransaction(GetRecurrentTransactionRequest) returns (GetRecurrentTransactionResponse);
+
+  // List all recurrent transactions
+  rpc ListRecurrentTransactions(ListRecurrentTransactionsRequest) returns (ListRecurrentTransactionsResponse);
+}
