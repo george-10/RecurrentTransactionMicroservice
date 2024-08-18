@@ -50,6 +50,7 @@ app.MapControllers();
 
 // Map your gRPC services
  
-
+app.UseGrpcWeb();
+app.MapGrpcService<ServiceImpl>().EnableGrpcWeb();
 
 app.Run();
