@@ -3,8 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using RecurrentTransactionMicroservice.Core.AutoMappers;
+using RecurrentTransactionMicroservice.Core.Services;
 using RecurrentTransactionMicroservice.Core.Services.gRPC;
-using RecurrentTransactionMicroservice.Persistence.Context;
+using RecurrentTransactionMicroservice.Domain.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +30,10 @@ builder.Services.AddCors(o => o.AddPolicy("AllowAll", builder =>
         .AllowAnyHeader();
 }));
 builder.Services.AddControllers();
+
+// Add background service
+builder.Services.AddHostedService<RecurringTransactionService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -44,9 +49,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Map your gRPC services
-app.UseGrpcWeb();
-app.MapGrpcService<ServiceImpl>().EnableGrpcWeb();
-app.UseCors("AllowAll");
+ 
 
 
 app.Run();

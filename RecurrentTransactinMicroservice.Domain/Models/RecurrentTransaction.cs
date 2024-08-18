@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace RecurrentTransactionMicroservice.Domain.Models;
+namespace RecurrentTransactinMicroservice.Domain.Models;
 
 public partial class RecurrentTransaction
 {
@@ -18,11 +18,4 @@ public partial class RecurrentTransaction
     public DateTime? LastTransactionDate { get; set; }
 
     public string? BranchId { get; set; }
-    public bool IsTransactionDue()
-    {
-        if (!LastTransactionDate.HasValue)
-            return true;
-
-        return (DateTime.UtcNow - LastTransactionDate.Value).TotalSeconds >= Interval;
-    }
 }

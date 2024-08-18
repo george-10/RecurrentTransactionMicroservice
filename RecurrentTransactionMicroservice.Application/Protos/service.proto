@@ -9,14 +9,16 @@ message RecurrentTransactions {
   bool isDeposit = 3;
   int64 amount = 4;
   int64 interval = 5;
+  string branchId = 6;
 }
-
+ 
 // Message to create a new recurrent transaction
 message CreateRecurrentTransactionRequest {
   int64 accountId = 1;
   bool isDeposit = 2;
   int64 amount = 3;
   int64 interval = 4;
+  string branchId = 5;
 }
 
 // Response for create operation
@@ -27,15 +29,20 @@ message CreateRecurrentTransactionResponse {
 // Message to get a specific recurrent transaction by Id
 message GetRecurrentTransactionRequest {
   int64 id = 1;
+  string branchId = 2;
+
 }
 
 // Response for get operation
 message GetRecurrentTransactionResponse {
   RecurrentTransactions transaction = 1;
+
 }
 
 // Message to list all recurrent transactions
-message ListRecurrentTransactionsRequest {}
+message ListRecurrentTransactionsRequest {
+  string branchId = 1;
+}
 
 // Response for list operation
 message ListRecurrentTransactionsResponse {
@@ -53,3 +60,9 @@ service RecurrentTransactionService {
   // List all recurrent transactions
   rpc ListRecurrentTransactions(ListRecurrentTransactionsRequest) returns (ListRecurrentTransactionsResponse);
 }
+
+
+
+
+
+

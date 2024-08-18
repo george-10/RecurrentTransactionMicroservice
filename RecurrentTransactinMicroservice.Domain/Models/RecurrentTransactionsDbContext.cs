@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace RecurrentTransactionMicroservice.Domain.Models;
+namespace RecurrentTransactinMicroservice.Domain.Models;
 
 public partial class RecurrentTransactionsDbContext : DbContext
 {

@@ -2,7 +2,7 @@
 using Grpc.Core;
 using Microsoft.EntityFrameworkCore;
 using RecurrentTransactionMicroservice.Domain.Models;
-using RecurrentTransactionMicroservice.Persistence.Context;
+
 
 namespace RecurrentTransactionMicroservice.Core.Services.gRPC;
 
@@ -33,7 +33,7 @@ public class ServiceImpl : RecurrentTransactionService.RecurrentTransactionServi
         }
         catch (Exception ex)
         {
-            // Log the error
+
             throw new RpcException(new Status(StatusCode.Internal, $"An error occurred while creating the transaction: {ex.Message}"));
         }
     }
@@ -42,8 +42,10 @@ public class ServiceImpl : RecurrentTransactionService.RecurrentTransactionServi
     {
         try
         {
-            
-            var transaction = await _context.RecurrentTransactions.FindAsync(request.Id);
+
+            var transaction = await _context.RecurrentTransactions
+                .Where(x => x.BranchId == request.BranchId && x.Id == request.Id)
+                .FirstOrDefaultAsync();
             if (transaction == null)
             {
                 throw new RpcException(new Status(StatusCode.NotFound, "Transaction not found"));
@@ -67,7 +69,7 @@ public class ServiceImpl : RecurrentTransactionService.RecurrentTransactionServi
     {
         try
         {
-            var transactions = await _context.RecurrentTransactions.ToListAsync();
+            var transactions = await _context.RecurrentTransactions.Where(x=>x.BranchId==request.BranchId).ToListAsync();
             var response = new ListRecurrentTransactionsResponse();
             response.Transactions.AddRange(_mapper.Map<IEnumerable<RecurrentTransactions>>(transactions));
 
